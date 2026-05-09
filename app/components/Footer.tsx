@@ -11,18 +11,18 @@ export default function Footer() {
           </p>
         </div>
         <div>
-          <h4 className="text-gray-300 font-semibold mb-4 text-xs uppercase tracking-widest">Support</h4>
-          <ul className="space-y-2">
-            <li><Link href="/shipping" className="hover:text-indigo-400 transition">Shipping Policy</Link></li>
-            <li><Link href="/refunds" className="hover:text-indigo-400 transition">Refund Policy</Link></li>
-            <li><Link href="/contact" className="hover:text-indigo-400 transition">Contact Us</Link></li>
+          <h4 className="text-gray-300 font-semibold mb-4 text-[10px] uppercase tracking-[0.3em] opacity-50">Support</h4>
+          <ul className="space-y-3">
+            <li><Link href="/shipping" className="text-gray-500 hover:text-indigo-400 transition-colors duration-300 font-mono text-xs">SHIPPING_PROTOCOL</Link></li>
+            <li><Link href="/refunds" className="text-gray-500 hover:text-indigo-400 transition-colors duration-300 font-mono text-xs">REFUND_PROTOCOL</Link></li>
+            <li><Link href="/contact" className="text-gray-500 hover:text-indigo-400 transition-colors duration-300 font-mono text-xs">CONTACT_UPLINK</Link></li>
           </ul>
         </div>
         <div>
-          <h4 className="text-gray-300 font-semibold mb-4 text-xs uppercase tracking-widest">Connect</h4>
-          <ul className="space-y-2">
-            <li><a href="#" className="hover:text-indigo-400 transition">TikTok</a></li>
-            <li><a href="#" className="hover:text-indigo-400 transition">Instagram</a></li>
+          <h4 className="text-gray-300 font-semibold mb-4 text-[10px] uppercase tracking-[0.3em] opacity-50">Connect</h4>
+          <ul className="space-y-3">
+            <li><a href="#" className="text-gray-500 hover:text-indigo-400 transition-colors duration-300 font-mono text-xs">TIKTOK_UPLINK</a></li>
+            <li><a href="#" className="text-gray-500 hover:text-indigo-400 transition-colors duration-300 font-mono text-xs">INSTAGRAM_UPLINK</a></li>
           </ul>
         </div>
       </div>
