@@ -14,7 +14,7 @@ export async function POST(req: Request) {
       sourceId,
       idempotencyKey: crypto.randomUUID(),
       amountMoney: {
-        amount: 2499n, // $24.99 in cents (using BigInt)
+        amount: BigInt(2499), // $24.99 in cents
         currency: 'USD',
       },
       locationId: process.env.SQUARE_LOCATION_ID,
