@@ -3,7 +3,7 @@ import { Client, Environment } from 'square'
 
 const client = new Client({
   accessToken: process.env.SQUARE_ACCESS_TOKEN,
-  environment: Environment.Sandbox, // Change to Production for live
+  environment: Environment.Production, // Change to Production for live
 })
 
 export async function POST(req: Request) {
