@@ -178,6 +178,44 @@ export default function Storefront() {
         </div>
       </section>
 
+      {/* Comparison Section */}
+      <section className="py-24 px-6 max-w-4xl mx-auto border-t border-indigo-900/10">
+        <h3 className="text-center text-xs font-bold text-indigo-500 uppercase tracking-[0.4em] mb-12">Protocol Comparison</h3>
+        <div className="overflow-x-auto">
+          <table className="w-full text-left border-collapse">
+            <thead>
+              <tr className="border-b border-indigo-900/20">
+                <th className="py-4 text-[10px] uppercase tracking-widest text-gray-500">Feature</th>
+                <th className="py-4 text-[10px] uppercase tracking-widest text-white italic font-black">NOX V1</th>
+                <th className="py-4 text-[10px] uppercase tracking-widest text-gray-500">Retail Generic</th>
+              </tr>
+            </thead>
+            <tbody className="text-sm font-mono">
+              <tr className="border-b border-indigo-900/10">
+                <td className="py-4 text-gray-400">Speaker Depth</td>
+                <td className="py-4 text-indigo-400">3mm (Ultra-Slim)</td>
+                <td className="py-4 text-gray-700">10-15mm (Bulky)</td>
+              </tr>
+              <tr className="border-b border-indigo-900/10">
+                <td className="py-4 text-gray-400">Eye Pressure</td>
+                <td className="py-4 text-indigo-400">Zero (3D Contoured)</td>
+                <td className="py-4 text-gray-700">High (Flat Design)</td>
+              </tr>
+              <tr className="border-b border-indigo-900/10">
+                <td className="py-4 text-gray-400">Light Occlusion</td>
+                <td className="py-4 text-indigo-400">100% (Total)</td>
+                <td className="py-4 text-gray-700">85-90% (Leaking)</td>
+              </tr>
+              <tr className="border-b border-indigo-900/10">
+                <td className="py-4 text-gray-400">Material</td>
+                <td className="py-4 text-indigo-400">Thermo-Memory Foam</td>
+                <td className="py-4 text-gray-700">Polyester / Cotton</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
       {/* Product 2: Coming Soon */}
       <section className="py-20 px-6 max-w-6xl mx-auto border-t border-indigo-900/10">
          <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
