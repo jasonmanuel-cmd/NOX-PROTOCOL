@@ -5,6 +5,12 @@ import { motion } from 'framer-motion'
 import { ShieldCheck, Truck, Zap, Moon, BatteryCharging, Headphones } from 'lucide-react'
 import Footer from './components/Footer'
 
+declare global {
+  interface Window {
+    Square: any;
+  }
+}
+
 export default function Storefront() {
   const [paymentStatus, setPaymentStatus] = useState('')
   const [isProcessing, setIsProcessing] = useState(false)
@@ -154,13 +160,13 @@ export default function Storefront() {
           <div>
             <h3 className="text-xs font-bold text-indigo-500 uppercase tracking-[0.3em] mb-4">Neural Architecture</h3>
             <p className="text-sm text-gray-500 leading-loose">
-              The V1 utilizes 3D contoured padding to apply zero pressure to the ocular nerves, preventing REM interruption. Integrated ultra-slim speakers provide passive noise isolation, ideal for non-invasive audio therapy.
+              Unlike generic retail masks that utilize thick, uncomfortable speakers, the V1 features ultra-slim 3mm transducers optimized for side-sleepers. The zero-pressure ocular design ensures no REM interruption while blocking 100% of external light pollution.
             </p>
           </div>
           <div>
-            <h3 className="text-xs font-bold text-indigo-500 uppercase tracking-[0.3em] mb-4">Material Science</h3>
+            <h3 className="text-xs font-bold text-indigo-500 uppercase tracking-[0.3em] mb-4">Lab-Grade Construction</h3>
             <p className="text-sm text-gray-500 leading-loose">
-              Constructed from breathable thermo-regulating memory foam. Designed for side-sleepers and athletes requiring hyper-efficient recovery cycles.
+              Built with precision-engineered thermo-regulating memory foam. Each unit is delivered in protective sterile-seal packaging to ensure the protocol arrives uncompromised. This is human optimization, not a toy.
             </p>
           </div>
         </div>
