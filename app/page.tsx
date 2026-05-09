@@ -69,12 +69,17 @@ export default function Storefront() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
-          className="text-center"
+          className="text-center flex flex-col items-center"
         >
-          <h1 className="text-6xl md:text-9xl font-black italic tracking-tighter mb-4 drop-shadow-[0_0_30px_rgba(79,70,229,0.3)]">NOX PROTOCOL</h1>
-          <p className="text-indigo-400 uppercase tracking-[0.4em] text-sm font-bold mb-12 opacity-80">Human Optimization Lab // v1.0.4</p>
+          <img 
+            src="https://sc02.alicdn.com/kf/Ad874c5fd810545ac954696e21bea72dah.png" 
+            alt="NOX PROTOCOL Logo" 
+            className="w-32 md:w-48 mb-8 drop-shadow-[0_0_30px_rgba(79,70,229,0.3)]"
+          />
+          <h1 className="text-4xl md:text-6xl font-black italic tracking-tighter mb-4 uppercase leading-none">Deep Calm. <br/>Neural Recovery.</h1>
+          <p className="text-indigo-400 uppercase tracking-[0.4em] text-xs font-bold mb-12 opacity-80">The Science of Restorative Sleep // v1.0.4</p>
           <a href="#store" className="bg-indigo-600 text-white px-10 py-5 font-black rounded-full hover:bg-indigo-500 hover:shadow-[0_0_30px_rgba(79,70,229,0.5)] transition-all duration-300 uppercase text-sm tracking-widest">
-            Access Terminal
+            Begin the Protocol
           </a>
         </motion.div>
 
@@ -224,10 +229,47 @@ export default function Storefront() {
                   <img src="https://sc02.alicdn.com/kf/Aec1ee7acd4ab4175b0ff5a522308e4ddP.png" className="w-full h-full object-contain grayscale" />
                </div>
                <h3 className="text-xl font-black italic tracking-tighter mb-2 italic">CORE: PULSE INTERFACE</h3>
-               <p className="text-xs font-mono text-indigo-900 uppercase tracking-widest mb-4">Status: Undergoing Calibration</p>
+               <p className="textk italic mb-6 tracking-tighter uppercase text-indigo-900/50">Next Gen Hardware Incoming</h2>
+               <p className="text-gray-600 text-sm leading-relaxed max-w-xl">
+                  The CORE Cranial Pulse Interface is currently in final testing. Utilizing localized microcurrent technology to stabilize neurotransmitters pre-sleep. Early access deployment scheduled for Q3 2026.
+               </p>
             </div>
-            <div className="md:col-span-2 flex flex-col justify-center">
-               <h2 className="text-3xl font-black italic mb-6 tracking-tighter uppercase text-indigo-900/50">Next Gen Hardware Incoming</h2>
+         </div>
+      </section>
+
+      {/* Tech Specs */}
+      <section className="bg-zinc-950 py-24 px-6 border-t border-indigo-900/10">
+        <div className="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12">
+          <div>
+            <h3 className="text-xs font-bold text-indigo-500 uppercase tracking-[0.3em] mb-4">Neural Architecture</h3>
+            <p className="text-sm text-gray-500 leading-loose">
+              Unlike generic retail masks that utilize thick, uncomfortable speakers, the V1 features ultra-slim 3mm transducers optimized for side-sleepers. The zero-pressure ocular design ensures no REM interruption while blocking 100% of external light pollution.
+            </p>
+          </div>
+          <div>
+            <h3 className="text-xs font-bold text-indigo-500 uppercase tracking-[0.3em] mb-4">Lab-Grade Construction</h3>
+            <p className="text-sm text-gray-500 leading-loose">
+              Built with precision-engineered thermo-regulating memory foam. Each unit is delivered in protective sterile-seal packaging to ensure the protocol arrives uncompromised. This is human optimization, not a toy.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <Footer />
+    </div>
+  )
+}
+ is delivered in protective sterile-seal packaging to ensure the protocol arrives uncompromised. This is human optimization, not a toy.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <Footer />
+    </div>
+  )
+}
+coming</h2>
                <p className="text-gray-600 text-sm leading-relaxed max-w-xl">
                   The CORE Cranial Pulse Interface is currently in final testing. Utilizing localized microcurrent technology to stabilize neurotransmitters pre-sleep. Early access deployment scheduled for Q3 2026.
                </p>
