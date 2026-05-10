@@ -3,19 +3,68 @@
 @tailwind utilities;
 
 :root {
-  --foreground-rgb: 255, 255, 255;
-  --background-start-rgb: 10, 10, 20;
-  --background-end-rgb: 0, 0, 0;
+  --nox-bg: #000005;
+  --nox-bg2: #05050f;
+  --nox-indigo: #6366f1;
+  --nox-indigo-glow: rgba(99,102,241,0.25);
+  --nox-indigo-dim: rgba(99,102,241,0.12);
+  --nox-cyan: #22d3ee;
+  --nox-white: #f4f4f8;
+  --nox-gray: #71717a;
+  --nox-gray-mid: #3f3f50;
 }
 
 body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+  background: var(--nox-bg);
+  color: var(--nox-white);
+  font-family: 'Space Grotesk', sans-serif;
   min-height: 100vh;
-  font-family: sans-serif;
 }
+
+.font-display { font-family: 'Bebas Neue', sans-serif !important; }
+.font-mono-nox { font-family: 'JetBrains Mono', monospace !important; }
+
+.nox-grid {
+  background-image:
+    linear-gradient(rgba(99,102,241,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(99,102,241,0.04) 1px, transparent 1px);
+  background-size: 60px 60px;
+}
+
+.glow-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  pointer-events: none;
+}
+
+@keyframes scan-line {
+  0%   { top: -2px; }
+  100% { top: 100%; }
+}
+.scan-line {
+  position: absolute;
+  left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(99,102,241,0.4), transparent);
+  animation: scan-line 5s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes pulse-glow {
+  0%, 100% { opacity: 0.6; }
+  50%       { opacity: 1;   }
+}
+@keyframes float-mask {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-10px); }
+}
+@keyframes spin-slow { to { transform: rotate(360deg); } }
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}
+@keyframes reveal-up {
+  from { opacity: 0; transform: translateY(22px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes grow-bar { from { width: 0; } to { width: 72%; } }
