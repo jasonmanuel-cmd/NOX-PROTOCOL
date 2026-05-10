@@ -148,12 +148,12 @@ body { font-family: 'Space Grotesk', sans-serif; color: var(--white); }
 @keyframes spin { to { transform: rotate(360deg); } }
 @keyframes grow-bar { from { width: 0; } to { width: 72%; } }
 
-.ai { animation: reveal-up 0.65s ease forwards; }
-.d1 { animation-delay: 0.12s; opacity: 0; }
-.d2 { animation-delay: 0.24s; opacity: 0; }
-.d3 { animation-delay: 0.36s; opacity: 0; }
-.d4 { animation-delay: 0.48s; opacity: 0; }
-.d5 { animation-delay: 0.60s; opacity: 0; }
+.ai { animation: reveal-up 0.65s ease forwards; animation-play-state: paused; opacity: 0; }
+.d1 { animation-delay: 0.12s; }
+.d2 { animation-delay: 0.24s; }
+.d3 { animation-delay: 0.36s; }
+.d4 { animation-delay: 0.48s; }
+.d5 { animation-delay: 0.60s; }
 
 /* ===========================================
    NAV

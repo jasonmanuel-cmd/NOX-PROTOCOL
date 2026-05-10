@@ -102,16 +102,21 @@ export default function Storefront() {
               price: '24.99',
               availability: 'https://schema.org/InStock',
             },
+            image: [
+              'https://sc02.alicdn.com/kf/Afc2d13729af24a0e8dc577e17cdf27bca.png',
+              'https://s.alicdn.com/@sc04/kf/H0ee7cb1fa10141bf8c9e13967476b0b7E.jpg',
+              'https://s.alicdn.com/@sc04/kf/H381644cb2aba4d0f806a7e111a0f3d1av.jpg',
+            ],
             aggregateRating: { '@type': 'AggregateRating', ratingValue: '4.9', reviewCount: '124' },
           }),
         }}
       />
 
       {/* ── STICKY MOBILE CTA ── */}
-      <div className="fixed bottom-0 left-0 right-0 z-50 p-4 lg:hidden">
+      <div className="fixed bottom-0 left-0 right-0 z-50 p-4 lg:hidden pointer-events-none">
         <a
           href="#store"
-          className="block w-full text-center py-4 rounded-xl font-display text-xl tracking-widest text-white shadow-2xl"
+          className="block w-full text-center py-4 rounded-xl font-display text-xl tracking-widest text-white shadow-2xl pointer-events-auto"
           style={{ background: '#6366f1', boxShadow: '0 0 30px rgba(99,102,241,0.5)' }}
         >
           GET THE V1 — $24.99
@@ -208,8 +213,8 @@ export default function Storefront() {
               <img
                 src="https://sc02.alicdn.com/kf/Afc2d13729af24a0e8dc577e17cdf27bca.png"
                 alt="V1 Neural Interface"
-                className="w-full h-full object-contain relative z-10 transition-all duration-700 hover:grayscale-0"
-                style={{ animation: 'float-mask 4s ease-in-out infinite', filter: 'drop-shadow(0 0 40px rgba(99,102,241,0.5)) grayscale(1)' }}
+                className="w-full h-full object-contain relative z-10 transition-all duration-700 grayscale hover:grayscale-0"
+                style={{ animation: 'float-mask 4s ease-in-out infinite', filter: 'drop-shadow(0 0 40px rgba(99,102,241,0.5))' }}
               />
             </div>
             <div className="grid grid-cols-3 gap-4">
