@@ -1,0 +1,1313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>NOX PROTOCOL — V1 Launch</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Bebas+Neue&display=swap" rel="stylesheet" />
+<style>
+/* ===========================================
+   VIEWPORT FITTING: MANDATORY BASE STYLES
+   =========================================== */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body { height: 100%; overflow-x: hidden; background: #000; }
+
+html {
+  scroll-snap-type: y mandatory;
+  scroll-behavior: smooth;
+}
+
+.slide {
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
+  overflow: hidden;
+  scroll-snap-align: start;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.slide-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  max-height: 100%;
+  overflow: hidden;
+  padding: var(--slide-padding);
+}
+
+:root {
+  --title-size: clamp(1.5rem, 5vw, 4rem);
+  --h2-size: clamp(1.25rem, 3.5vw, 2.5rem);
+  --h3-size: clamp(1rem, 2.5vw, 1.75rem);
+  --body-size: clamp(0.75rem, 1.5vw, 1.125rem);
+  --small-size: clamp(0.65rem, 1vw, 0.875rem);
+
+  --slide-padding: clamp(1rem, 5vw, 5rem);
+  --content-gap: clamp(0.5rem, 2vw, 2rem);
+  --element-gap: clamp(0.25rem, 1vw, 1rem);
+
+  --bg: #000005;
+  --bg2: #05050f;
+  --indigo: #6366f1;
+  --indigo-glow: rgba(99, 102, 241, 0.25);
+  --indigo-dim: rgba(99, 102, 241, 0.12);
+  --cyan: #22d3ee;
+  --cyan-glow: rgba(34, 211, 238, 0.2);
+  --white: #f4f4f8;
+  --gray: #71717a;
+  --gray-mid: #3f3f50;
+}
+
+.grid-el { display: grid; gap: clamp(0.5rem, 1.5vw, 1.5rem); }
+img { max-width: 100%; object-fit: contain; }
+
+@media (max-height: 700px) {
+  :root {
+    --slide-padding: clamp(0.75rem, 3vw, 2rem);
+    --content-gap: clamp(0.4rem, 1.5vw, 1rem);
+    --title-size: clamp(1.25rem, 4.5vw, 2.5rem);
+    --h2-size: clamp(1rem, 3vw, 1.75rem);
+  }
+}
+@media (max-height: 600px) {
+  :root {
+    --slide-padding: clamp(0.5rem, 2.5vw, 1.5rem);
+    --title-size: clamp(1.1rem, 4vw, 2rem);
+    --body-size: clamp(0.7rem, 1.2vw, 0.95rem);
+  }
+  .nav-dots, .kbd-hint { display: none; }
+}
+@media (max-height: 500px) {
+  :root {
+    --slide-padding: clamp(0.4rem, 2vw, 1rem);
+    --title-size: clamp(1rem, 3.5vw, 1.5rem);
+    --h2-size: clamp(0.9rem, 2.5vw, 1.25rem);
+    --body-size: clamp(0.65rem, 1vw, 0.85rem);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.2s !important;
+  }
+  html { scroll-behavior: auto; }
+}
+
+/* ===========================================
+   TYPOGRAPHY
+   =========================================== */
+body { font-family: 'Space Grotesk', sans-serif; color: var(--white); }
+
+/* ===========================================
+   SHARED DECORATIVE
+   =========================================== */
+.bg-grid {
+  position: absolute; inset: 0; pointer-events: none;
+  background-image:
+    linear-gradient(rgba(99,102,241,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(99,102,241,0.04) 1px, transparent 1px);
+  background-size: 60px 60px;
+}
+
+.glow-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  pointer-events: none;
+}
+
+/* ===========================================
+   ANIMATIONS
+   =========================================== */
+@keyframes pulse-glow {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 1; }
+}
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-12px); }
+}
+@keyframes scan-line {
+  0% { top: -2px; }
+  100% { top: 100%; }
+}
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+@keyframes reveal-up {
+  from { opacity: 0; transform: translateY(28px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+@keyframes grow-bar { from { width: 0; } to { width: 72%; } }
+
+.ai { animation: reveal-up 0.65s ease forwards; }
+.d1 { animation-delay: 0.12s; opacity: 0; }
+.d2 { animation-delay: 0.24s; opacity: 0; }
+.d3 { animation-delay: 0.36s; opacity: 0; }
+.d4 { animation-delay: 0.48s; opacity: 0; }
+.d5 { animation-delay: 0.60s; opacity: 0; }
+
+/* ===========================================
+   NAV
+   =========================================== */
+.nav-dots {
+  position: fixed;
+  right: clamp(0.75rem, 2vw, 1.5rem);
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  z-index: 100;
+}
+.nav-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--gray-mid);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: none;
+  padding: 0;
+}
+.nav-dot.active {
+  background: var(--indigo);
+  box-shadow: 0 0 10px var(--indigo);
+  transform: scale(1.5);
+}
+.progress-bar {
+  position: fixed; top: 0; left: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--indigo), var(--cyan));
+  z-index: 200;
+  transition: width 0.4s ease;
+  box-shadow: 0 0 8px var(--indigo);
+}
+.slide-counter {
+  position: fixed;
+  bottom: clamp(0.75rem, 2vw, 1.5rem);
+  right: clamp(0.75rem, 2vw, 1.5rem);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: var(--small-size);
+  color: var(--gray);
+  z-index: 100;
+  letter-spacing: 0.1em;
+}
+.kbd-hint {
+  position: fixed;
+  bottom: clamp(0.75rem, 2vw, 1.5rem);
+  left: clamp(0.75rem, 2vw, 1.5rem);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: var(--small-size);
+  color: var(--gray-mid);
+  z-index: 100;
+}
+
+/* ===========================================
+   COMPONENTS
+   =========================================== */
+.tag {
+  display: inline-flex; align-items: center;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: var(--small-size);
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  padding: 0.3em 0.8em;
+  border-radius: 2px;
+  border: 1px solid var(--indigo);
+  color: var(--indigo);
+}
+.tag-cyan { border-color: var(--cyan); color: var(--cyan); }
+
+.label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: var(--small-size);
+  color: var(--indigo);
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  margin-bottom: 0.8em;
+}
+.label-cyan { color: var(--cyan); }
+
+.display-head {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(2rem, 5vw, 4.5rem);
+  line-height: 1;
+  margin-bottom: 0.5em;
+}
+
+.body-text {
+  font-size: var(--body-size);
+  color: #a1a1aa;
+  line-height: 1.6;
+}
+
+.glow-line {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--indigo), transparent);
+}
+
+/* ===========================================
+   SLIDE 1: COVER
+   =========================================== */
+#s1 { background: #000; }
+#s1 .scan {
+  position: absolute; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(99,102,241,0.4), transparent);
+  animation: scan-line 4s linear infinite;
+  pointer-events: none;
+}
+#s1 .o1 { width: 65vw; height: 65vw; max-width: 750px; max-height: 750px;
+  background: radial-gradient(circle, rgba(99,102,241,0.15) 0%, transparent 70%);
+  top: -15%; left: -10%; }
+#s1 .o2 { width: 40vw; height: 40vw; max-width: 500px; max-height: 500px;
+  background: radial-gradient(circle, rgba(34,211,238,0.07) 0%, transparent 70%);
+  bottom: 0; right: 0; }
+
+#s1 .inner {
+  position: relative; z-index: 2;
+  display: flex; flex-direction: column; align-items: center;
+  text-align: center; gap: var(--content-gap);
+}
+#s1 .brand-line {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: var(--small-size);
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--cyan);
+  display: flex; align-items: center; gap: 0.7em;
+}
+#s1 .brand-line::before, #s1 .brand-line::after {
+  content: ''; display: block;
+  width: clamp(20px, 3vw, 40px); height: 1px;
+  background: var(--cyan);
+}
+#s1 h1 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(5rem, 16vw, 13rem);
+  line-height: 0.85;
+  letter-spacing: 0.03em;
+  background: linear-gradient(135deg, #fff 0%, rgba(99,102,241,0.85) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+#s1 .sub {
+  font-size: clamp(0.75rem, 1.8vw, 1.1rem);
+  color: var(--gray);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  max-width: 480px;
+  line-height: 1.6;
+}
+#s1 .badge {
+  background: linear-gradient(135deg, var(--indigo), #818cf8);
+  color: white;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: var(--small-size);
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  padding: 0.5em 1.5em;
+  border-radius: 2px;
+  box-shadow: 0 0 30px rgba(99,102,241,0.4);
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+#s1 .cursor {
+  display: inline-block;
+  width: 3px; height: 1em;
+  background: var(--cyan);
+  animation: blink 1s step-end infinite;
+  vertical-align: middle;
+}
+
+/* ===========================================
+   SLIDE 2: PROBLEM
+   =========================================== */
+#s2 { background: var(--bg); }
+#s2 .o1 { width: 50vw; height: 50vw;
+  background: radial-gradient(circle, rgba(239,68,68,0.07) 0%, transparent 70%);
+  top: -10%; right: -10%; }
+
+#s2 .two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(2rem, 5vw, 5rem);
+  align-items: center;
+  max-width: 1200px; margin: 0 auto; width: 100%;
+}
+#s2 h2 { font-family: 'Bebas Neue', sans-serif; font-size: clamp(2rem, 5vw, 4.5rem); line-height: 1; margin-bottom: 0.8em; }
+#s2 .pain-list { list-style: none; display: flex; flex-direction: column; gap: 0.75em; }
+#s2 .pain-list li {
+  display: flex; align-items: flex-start; gap: 0.8em;
+  font-size: var(--body-size); color: #a1a1aa; line-height: 1.4;
+}
+#s2 .pain-list li::before {
+  content: '//';
+  font-family: 'JetBrains Mono', monospace;
+  color: #ef4444; flex-shrink: 0;
+  font-size: 0.8em; margin-top: 0.15em;
+}
+#s2 .stat-stack { display: flex; flex-direction: column; gap: 1.2em; }
+#s2 .stat-item { border-left: 2px solid var(--indigo); padding-left: 1.2em; }
+#s2 .stat-item .n { font-family: 'Bebas Neue', sans-serif; font-size: clamp(2rem, 4.5vw, 3.8rem); color: var(--indigo); line-height: 1; text-shadow: 0 0 25px var(--indigo-glow); }
+#s2 .stat-item .d { font-size: var(--small-size); color: var(--gray); font-family: 'JetBrains Mono', monospace; text-transform: uppercase; letter-spacing: 0.1em; margin-top: 0.2em; }
+
+@media (max-width: 700px) { #s2 .two-col { grid-template-columns: 1fr; } }
+
+/* ===========================================
+   SLIDE 3: PRODUCT REVEAL
+   =========================================== */
+#s3 { background: #000; }
+#s3 .o1 { width: 70vw; height: 70vw; max-width: 800px; max-height: 800px;
+  background: radial-gradient(circle, rgba(99,102,241,0.18) 0%, transparent 65%);
+  top: 50%; left: 50%; transform: translate(-50%,-50%); }
+
+#s3 .inner {
+  position: relative; z-index: 2;
+  display: flex; flex-direction: column; align-items: center;
+  text-align: center; gap: var(--content-gap);
+}
+#s3 .img-wrap {
+  position: relative;
+  width: clamp(200px, 32vw, 400px);
+  height: clamp(200px, 32vw, 400px);
+  flex-shrink: 0;
+}
+#s3 .img-wrap img {
+  width: 100%; height: 100%; object-fit: contain;
+  filter: drop-shadow(0 0 40px rgba(99,102,241,0.55));
+  animation: float 4s ease-in-out infinite;
+}
+#s3 .ring1 {
+  position: absolute; inset: -8%;
+  border: 1px solid rgba(99,102,241,0.15);
+  border-radius: 50%;
+  animation: spin 20s linear infinite;
+}
+#s3 .ring2 {
+  position: absolute; inset: -20%;
+  border: 1px solid rgba(34,211,238,0.07);
+  border-radius: 50%;
+  animation: spin 30s linear infinite reverse;
+}
+#s3 h2 { font-family: 'Bebas Neue', sans-serif; font-size: clamp(2rem, 6vw, 5rem); letter-spacing: 0.04em; line-height: 1; }
+#s3 .model { font-family: 'JetBrains Mono', monospace; font-size: var(--small-size); color: var(--cyan); letter-spacing: 0.25em; text-transform: uppercase; }
+#s3 .tags { display: flex; gap: 0.6em; flex-wrap: wrap; justify-content: center; }
+
+/* ===========================================
+   SLIDE 4: 3mm AUDIO
+   =========================================== */
+#s4 { background: var(--bg); }
+#s4 .inner {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: clamp(2rem, 5vw, 6rem);
+  align-items: center;
+  max-width: 1200px; margin: 0 auto; width: 100%;
+}
+#s4 .big-num {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(7rem, 20vw, 17rem);
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(99,102,241,0.3);
+  line-height: 0.85;
+  position: relative;
+}
+#s4 .big-num span {
+  font-size: 0.28em;
+  -webkit-text-stroke: 0;
+  color: var(--indigo);
+  position: absolute; bottom: 0.25em; right: 0;
+  font-family: 'JetBrains Mono', monospace;
+  letter-spacing: 0.1em;
+}
+#s4 h2 { font-family: 'Bebas Neue', sans-serif; font-size: clamp(2rem, 4vw, 3.8rem); line-height: 1; margin-bottom: 0.5em; }
+#s4 .vs-row {
+  display: flex; align-items: center; gap: 1em;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: var(--body-size);
+  margin-top: 1em;
+}
+#s4 .vs-row .good { color: var(--indigo); font-weight: 700; }
+#s4 .vs-row .bad { color: var(--gray); text-decoration: line-through; }
+#s4 .vs-row .sep { color: var(--gray-mid); }
+#s4 .code-block {
+  margin-top: 1em;
+  padding: 0.8em 1em;
+  border: 1px solid rgba(99,102,241,0.15);
+  border-radius: 8px;
+  background: rgba(99,102,241,0.04);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: var(--small-size);
+  color: var(--gray);
+  line-height: 1.5;
+}
+#s4 .code-block .kw { color: var(--indigo); }
+
+@media (max-width: 700px) { #s4 .inner { grid-template-columns: 1fr; } #s4 .big-num { font-size: clamp(5rem, 16vw, 9rem); } }
+
+/* ===========================================
+   SLIDE 5: 100% BLACKOUT
+   =========================================== */
+#s5 { background: #000; }
+#s5 .bg-eye {
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse 55% 38% at 50% 50%, rgba(99,102,241,0.09) 0%, transparent 70%);
+}
+#s5 .inner {
+  position: relative; z-index: 2;
+  display: flex; flex-direction: column; align-items: center;
+  text-align: center; gap: var(--content-gap);
+  max-width: 860px; margin: 0 auto;
+}
+#s5 .big-pct {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(6rem, 22vw, 19rem);
+  line-height: 0.83;
+  background: linear-gradient(135deg, #fff 0%, rgba(99,102,241,0.85) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+#s5 h2 { font-family: 'Bebas Neue', sans-serif; font-size: clamp(1.5rem, 4vw, 3.5rem); letter-spacing: 0.08em; }
+#s5 .chip-row { display: flex; flex-wrap: wrap; gap: 0.6em; justify-content: center; }
+
+/* ===========================================
+   SLIDE 6: THERMO FOAM
+   =========================================== */
+#s6 { background: var(--bg); }
+#s6 .o1 { width: 50vw; height: 50vw;
+  background: radial-gradient(circle, rgba(99,102,241,0.1) 0%, transparent 70%);
+  bottom: -20%; left: -10%; }
+#s6 .inner {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: clamp(2rem, 5vw, 6rem);
+  align-items: center;
+  max-width: 1200px; margin: 0 auto; width: 100%;
+}
+#s6 h2 { font-family: 'Bebas Neue', sans-serif; font-size: clamp(2rem, 4vw, 3.8rem); line-height: 1; margin-bottom: 0.5em; }
+#s6 .feature-stack { display: flex; flex-direction: column; gap: 0.9em; }
+#s6 .feature-row {
+  display: flex; align-items: flex-start; gap: 1em;
+  padding: 0.9em 1em;
+  border: 1px solid rgba(99,102,241,0.12);
+  border-radius: 8px;
+  background: rgba(99,102,241,0.04);
+}
+#s6 .feature-row .ico {
+  width: 34px; height: 34px; flex-shrink: 0;
+  border-radius: 6px; background: var(--indigo-dim);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1rem;
+}
+#s6 .feature-row .ft { font-weight: 600; font-size: var(--body-size); margin-bottom: 0.2em; }
+#s6 .feature-row .fd { font-size: var(--small-size); color: var(--gray); line-height: 1.4; }
+
+@media (max-width: 700px) { #s6 .inner { grid-template-columns: 1fr; } }
+
+/* ===========================================
+   SLIDE 7: SCIENCE
+   =========================================== */
+#s7 { background: #000; }
+#s7 .inner {
+  display: flex; flex-direction: column; align-items: center;
+  text-align: center; gap: var(--content-gap);
+  max-width: 1050px; margin: 0 auto;
+}
+#s7 h2 { font-family: 'Bebas Neue', sans-serif; font-size: clamp(1.8rem, 4.5vw, 4rem); line-height: 1; }
+#s7 .wave {
+  width: 100%; max-width: 680px;
+  height: clamp(55px, 9vw, 90px);
+}
+#s7 .three { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1em; width: 100%; }
+#s7 .sc {
+  background: rgba(10,10,24,0.95);
+  border: 1px solid rgba(99,102,241,0.15);
+  border-radius: 10px; padding: 1em;
+}
+#s7 .sc .n { font-family: 'Bebas Neue', sans-serif; font-size: clamp(1.5rem, 4vw, 3rem); color: var(--indigo); line-height: 1; text-shadow: 0 0 20px var(--indigo-glow); }
+#s7 .sc .l { font-size: var(--small-size); color: var(--gray); font-family: 'JetBrains Mono', monospace; text-transform: uppercase; letter-spacing: 0.08em; margin-top: 0.2em; }
+
+@media (max-width: 600px) { #s7 .three { grid-template-columns: 1fr 1fr; } }
+
+/* ===========================================
+   SLIDE 8: COMPARISON
+   =========================================== */
+#s8 { background: var(--bg); }
+#s8 .inner { max-width: 860px; margin: 0 auto; width: 100%; display: flex; flex-direction: column; gap: var(--content-gap); }
+#s8 h2 { font-family: 'Bebas Neue', sans-serif; font-size: clamp(1.8rem, 4vw, 3.5rem); line-height: 1; }
+#s8 table { width: 100%; border-collapse: collapse; }
+#s8 th {
+  padding: clamp(0.5rem, 1.2vw, 0.9rem) clamp(0.6rem, 1.8vw, 1.4rem);
+  font-family: 'JetBrains Mono', monospace; font-size: var(--small-size);
+  letter-spacing: 0.15em; text-transform: uppercase; text-align: left;
+  border-bottom: 1px solid rgba(99,102,241,0.3);
+}
+#s8 th:nth-child(2) { color: var(--indigo); }
+#s8 th:nth-child(3) { color: var(--gray); }
+#s8 td {
+  padding: clamp(0.45rem, 1.2vw, 0.85rem) clamp(0.6rem, 1.8vw, 1.4rem);
+  font-size: var(--body-size);
+  border-bottom: 1px solid rgba(99,102,241,0.06);
+}
+#s8 td:first-child { color: var(--gray); font-family: 'JetBrains Mono', monospace; font-size: var(--small-size); }
+#s8 td:nth-child(2) { color: var(--indigo); font-weight: 600; }
+#s8 td:nth-child(3) { color: #3f3f50; }
+#s8 tr { transition: background 0.2s; }
+#s8 tr:hover { background: rgba(99,102,241,0.04); }
+
+/* ===========================================
+   SLIDE 9: SOCIAL PROOF
+   =========================================== */
+#s9 { background: #000; }
+#s9 .o1 { width: 60vw; height: 60vw; background: radial-gradient(circle, rgba(99,102,241,0.12) 0%, transparent 70%); top: 50%; left: 50%; transform: translate(-50%,-50%); }
+#s9 .inner {
+  position: relative; z-index: 2;
+  display: flex; flex-direction: column; align-items: center;
+  text-align: center; gap: var(--content-gap);
+  max-width: 1050px; margin: 0 auto;
+}
+#s9 .stars { display: flex; gap: 4px; justify-content: center; color: var(--indigo); font-size: clamp(1rem, 2vw, 1.4rem); }
+#s9 .big-r {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(4rem, 14vw, 11rem);
+  line-height: 0.85;
+  background: linear-gradient(135deg, #fff 0%, var(--indigo) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+#s9 h2 { font-family: 'Bebas Neue', sans-serif; font-size: clamp(1.2rem, 3vw, 2.5rem); }
+#s9 .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.8em; width: 100%; }
+#s9 .rc {
+  background: rgba(10,10,24,0.95);
+  border: 1px solid rgba(99,102,241,0.12);
+  border-radius: 10px; padding: 1em; text-align: left;
+}
+#s9 .rc .rs { font-size: 0.6rem; color: var(--indigo); margin-bottom: 0.4em; }
+#s9 .rc .rq { font-size: var(--small-size); color: #a1a1aa; line-height: 1.4; font-style: italic; }
+#s9 .rc .rn { font-family: 'JetBrains Mono', monospace; font-size: 0.58rem; color: var(--gray-mid); text-transform: uppercase; letter-spacing: 0.1em; margin-top: 0.5em; }
+
+@media (max-width: 700px) { #s9 .cards { grid-template-columns: 1fr; } }
+
+/* ===========================================
+   SLIDE 10: PRICING
+   =========================================== */
+#s10 { background: var(--bg); }
+#s10 .o1 { width: 50vw; height: 50vw; background: radial-gradient(circle, rgba(99,102,241,0.14) 0%, transparent 70%); top: 50%; right: -8%; transform: translateY(-50%); }
+#s10 .inner {
+  position: relative; z-index: 2;
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: clamp(2rem, 5vw, 6rem);
+  align-items: center;
+  max-width: 1100px; margin: 0 auto; width: 100%;
+}
+#s10 h2 { font-family: 'Bebas Neue', sans-serif; font-size: clamp(2rem, 5vw, 4.5rem); line-height: 1; margin-bottom: 0.5em; }
+#s10 .pc {
+  background: rgba(10,10,24,0.9);
+  border: 1px solid rgba(99,102,241,0.3);
+  border-radius: 16px;
+  padding: clamp(1.5rem, 3vw, 2.5rem);
+  box-shadow: 0 0 60px rgba(99,102,241,0.1);
+  position: relative;
+}
+#s10 .pb {
+  position: absolute; top: -14px; left: 50%; transform: translateX(-50%);
+  background: var(--indigo);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.58rem; font-weight: 700;
+  letter-spacing: 0.2em; text-transform: uppercase;
+  padding: 0.3em 1em; border-radius: 2px;
+  white-space: nowrap;
+  box-shadow: 0 0 20px rgba(99,102,241,0.5);
+}
+#s10 .pm {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(4rem, 10vw, 8rem);
+  line-height: 1; color: white; text-align: center;
+}
+#s10 .pm small { font-size: 0.28em; color: var(--gray); vertical-align: super; }
+#s10 .was { text-align: center; color: var(--gray); text-decoration: line-through; font-size: var(--body-size); font-family: 'JetBrains Mono', monospace; margin-top: -0.3em; }
+#s10 .pf { list-style: none; margin-top: 1.2em; display: flex; flex-direction: column; gap: 0.55em; }
+#s10 .pf li { display: flex; align-items: center; gap: 0.6em; font-size: var(--small-size); color: #a1a1aa; }
+#s10 .pf li::before { content: '✓'; color: var(--indigo); font-weight: 700; flex-shrink: 0; }
+
+@media (max-width: 700px) { #s10 .inner { grid-template-columns: 1fr; } }
+
+/* ===========================================
+   SLIDE 11: GUARANTEE
+   =========================================== */
+#s11 { background: #000; }
+#s11 .inner {
+  display: flex; flex-direction: column; align-items: center;
+  text-align: center; gap: var(--content-gap);
+  max-width: 860px; margin: 0 auto;
+}
+#s11 .shield {
+  width: clamp(60px, 11vw, 100px); height: clamp(60px, 11vw, 100px);
+  border: 2px solid var(--indigo); border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: clamp(1.5rem, 3.5vw, 3rem);
+  box-shadow: 0 0 40px var(--indigo-glow);
+  animation: pulse-glow 2.5s ease-in-out infinite;
+  flex-shrink: 0;
+}
+#s11 h2 { font-family: 'Bebas Neue', sans-serif; font-size: clamp(2rem, 6vw, 5rem); line-height: 1; }
+#s11 .gg { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1em; width: 100%; }
+#s11 .gi {
+  background: rgba(10,10,24,0.95);
+  border: 1px solid rgba(99,102,241,0.15);
+  border-radius: 10px; padding: 1em;
+}
+#s11 .gi .ico { font-size: clamp(1.2rem, 2.5vw, 1.8rem); margin-bottom: 0.35em; }
+#s11 .gi .t { font-size: var(--small-size); font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; }
+#s11 .gi .d { font-size: var(--small-size); color: var(--gray); font-family: 'JetBrains Mono', monospace; margin-top: 0.2em; }
+
+@media (max-width: 600px) { #s11 .gg { grid-template-columns: 1fr 1fr; } }
+
+/* ===========================================
+   SLIDE 12: HOW IT WORKS
+   =========================================== */
+#s12 { background: var(--bg); }
+#s12 .inner { max-width: 1100px; margin: 0 auto; width: 100%; display: flex; flex-direction: column; gap: var(--content-gap); }
+#s12 h2 { font-family: 'Bebas Neue', sans-serif; font-size: clamp(1.8rem, 4vw, 3.5rem); line-height: 1; }
+#s12 .steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1em; }
+#s12 .step {
+  position: relative;
+  background: rgba(10,10,24,0.95);
+  border: 1px solid rgba(99,102,241,0.15);
+  border-radius: 10px; padding: 1.2em 1em;
+}
+#s12 .step::after {
+  content: '→';
+  position: absolute; right: calc(-1 * clamp(0.5rem, 1.2vw, 0.9rem)); top: 50%; transform: translateY(-50%);
+  color: rgba(99,102,241,0.3); font-size: var(--body-size);
+}
+#s12 .step:last-child::after { display: none; }
+#s12 .step .sn { font-family: 'Bebas Neue', sans-serif; font-size: clamp(2rem, 5vw, 4rem); color: rgba(99,102,241,0.2); line-height: 1; }
+#s12 .step .st { font-size: var(--body-size); font-weight: 700; margin-bottom: 0.25em; }
+#s12 .step .sd { font-size: var(--small-size); color: var(--gray); line-height: 1.4; }
+
+@media (max-width: 700px) { #s12 .steps { grid-template-columns: 1fr 1fr; } #s12 .step::after { display: none; } }
+
+/* ===========================================
+   SLIDE 13: WHO IT'S FOR
+   =========================================== */
+#s13 { background: #000; }
+#s13 .o1 { width: 55vw; height: 55vw; background: radial-gradient(circle, rgba(34,211,238,0.06) 0%, transparent 70%); top: 50%; right: -8%; transform: translateY(-50%); }
+#s13 .inner {
+  position: relative; z-index: 2;
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: clamp(2rem, 5vw, 6rem);
+  align-items: center;
+  max-width: 1100px; margin: 0 auto; width: 100%;
+}
+#s13 h2 { font-family: 'Bebas Neue', sans-serif; font-size: clamp(2rem, 5vw, 4.5rem); line-height: 1; margin-bottom: 0.6em; }
+#s13 .plist { list-style: none; display: flex; flex-direction: column; gap: 0.65em; }
+#s13 .plist li {
+  display: flex; align-items: center; gap: 0.8em;
+  font-size: var(--body-size);
+  padding: 0.65em 1em;
+  border: 1px solid rgba(99,102,241,0.12);
+  border-radius: 8px; background: rgba(99,102,241,0.04);
+}
+#s13 .plist li .ico { font-size: 1.1em; }
+#s13 .plist li .lb { font-weight: 600; }
+#s13 .plist li .sb { color: var(--gray); font-size: var(--small-size); font-family: 'JetBrains Mono', monospace; margin-top: 0.1em; }
+#s13 .plist li .grp { display: flex; flex-direction: column; }
+
+@media (max-width: 700px) { #s13 .inner { grid-template-columns: 1fr; } }
+
+/* ===========================================
+   SLIDE 14: TRACTION
+   =========================================== */
+#s14 { background: var(--bg); }
+#s14 .inner {
+  display: flex; flex-direction: column; align-items: center;
+  text-align: center; gap: var(--content-gap);
+  max-width: 860px; margin: 0 auto;
+}
+#s14 h2 { font-family: 'Bebas Neue', sans-serif; font-size: clamp(2rem, 6vw, 5rem); line-height: 1; }
+#s14 .tg { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1em; width: 100%; }
+#s14 .tc {
+  background: rgba(10,10,24,0.95);
+  border: 1px solid rgba(99,102,241,0.2);
+  border-radius: 10px; padding: 1.2em 0.8em;
+}
+#s14 .tc .n { font-family: 'Bebas Neue', sans-serif; font-size: clamp(1.8rem, 5vw, 4rem); color: var(--indigo); line-height: 1; text-shadow: 0 0 25px var(--indigo-glow); }
+#s14 .tc .l { font-family: 'JetBrains Mono', monospace; font-size: var(--small-size); color: var(--gray); text-transform: uppercase; letter-spacing: 0.08em; margin-top: 0.2em; }
+#s14 .bar-wrap { width: 100%; display: flex; flex-direction: column; gap: 0.5em; }
+#s14 .bar-lbl { display: flex; justify-content: space-between; font-family: 'JetBrains Mono', monospace; font-size: var(--small-size); color: var(--gray); }
+#s14 .bar-lbl span:first-child { color: var(--indigo); }
+#s14 .bar-bg { background: rgba(99,102,241,0.1); border-radius: 4px; height: 8px; overflow: hidden; border: 1px solid rgba(99,102,241,0.2); }
+#s14 .bar-fill { height: 100%; width: 72%; background: linear-gradient(90deg, var(--indigo), var(--cyan)); border-radius: 4px; box-shadow: 0 0 10px rgba(99,102,241,0.5); animation: grow-bar 1.5s ease forwards; }
+
+@media (max-width: 600px) { #s14 .tg { grid-template-columns: 1fr 1fr; } }
+
+/* ===========================================
+   SLIDE 15: CTA
+   =========================================== */
+#s15 { background: #000; overflow: hidden; }
+#s15 .o1 { width: 80vw; height: 80vw; max-width: 900px; max-height: 900px;
+  background: radial-gradient(circle, rgba(99,102,241,0.2) 0%, transparent 65%);
+  top: 50%; left: 50%; transform: translate(-50%,-50%); }
+#s15 .scan {
+  position: absolute; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(99,102,241,0.5), transparent);
+  animation: scan-line 5s linear infinite; pointer-events: none;
+}
+#s15 .inner {
+  position: relative; z-index: 2;
+  display: flex; flex-direction: column; align-items: center;
+  text-align: center; gap: var(--content-gap);
+  max-width: 860px; margin: 0 auto;
+}
+#s15 .sub { font-family: 'JetBrains Mono', monospace; font-size: var(--small-size); color: var(--cyan); letter-spacing: 0.3em; text-transform: uppercase; }
+#s15 h2 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(3.5rem, 12vw, 10rem);
+  line-height: 0.88; letter-spacing: 0.03em;
+  background: linear-gradient(135deg, #fff 0%, rgba(99,102,241,0.9) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+#s15 .pr {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: var(--small-size); color: var(--gray);
+  border: 1px solid rgba(99,102,241,0.2);
+  padding: 0.4em 1.2em; border-radius: 2px;
+}
+#s15 .pr b { color: var(--indigo); }
+#s15 .cta {
+  display: inline-block;
+  background: var(--indigo); color: white;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: var(--body-size); font-weight: 700;
+  letter-spacing: 0.2em; text-transform: uppercase;
+  padding: 0.85em 2.5em; border-radius: 4px;
+  text-decoration: none;
+  box-shadow: 0 0 40px rgba(99,102,241,0.4), 0 0 80px rgba(99,102,241,0.15);
+  transition: all 0.3s ease;
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+#s15 .cta:hover { background: #4f46e5; box-shadow: 0 0 60px rgba(99,102,241,0.6); }
+#s15 .url { font-family: 'JetBrains Mono', monospace; font-size: var(--small-size); color: var(--gray-mid); letter-spacing: 0.15em; }
+</style>
+</head>
+<body>
+
+<div class="progress-bar" id="progressBar" style="width:6.67%"></div>
+
+<nav class="nav-dots" aria-label="Slide navigation">
+  <button class="nav-dot active" data-slide="0" aria-label="Slide 1"></button>
+  <button class="nav-dot" data-slide="1" aria-label="Slide 2"></button>
+  <button class="nav-dot" data-slide="2" aria-label="Slide 3"></button>
+  <button class="nav-dot" data-slide="3" aria-label="Slide 4"></button>
+  <button class="nav-dot" data-slide="4" aria-label="Slide 5"></button>
+  <button class="nav-dot" data-slide="5" aria-label="Slide 6"></button>
+  <button class="nav-dot" data-slide="6" aria-label="Slide 7"></button>
+  <button class="nav-dot" data-slide="7" aria-label="Slide 8"></button>
+  <button class="nav-dot" data-slide="8" aria-label="Slide 9"></button>
+  <button class="nav-dot" data-slide="9" aria-label="Slide 10"></button>
+  <button class="nav-dot" data-slide="10" aria-label="Slide 11"></button>
+  <button class="nav-dot" data-slide="11" aria-label="Slide 12"></button>
+  <button class="nav-dot" data-slide="12" aria-label="Slide 13"></button>
+  <button class="nav-dot" data-slide="13" aria-label="Slide 14"></button>
+  <button class="nav-dot" data-slide="14" aria-label="Slide 15"></button>
+</nav>
+
+<div class="slide-counter" id="slideCounter">01 / 15</div>
+<div class="kbd-hint">↑↓ or scroll to navigate</div>
+
+<main>
+
+<!-- SLIDE 1: COVER -->
+<section class="slide" id="s1" aria-label="Cover">
+  <div class="bg-grid"></div>
+  <div class="glow-orb o1"></div>
+  <div class="glow-orb o2"></div>
+  <div class="scan"></div>
+  <div class="slide-content">
+    <div class="inner">
+      <div class="brand-line ai">NOX PROTOCOL</div>
+      <h1 class="ai d1">NOX<br>V1</h1>
+      <p class="sub ai d2">The world's first professional-grade acoustic sleep mask<br>engineered for side-sleepers</p>
+      <div class="badge ai d3">&#x25CF;&nbsp; Batch 04 — Product Launch 2025</div>
+      <span class="cursor ai d4"></span>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 2: PROBLEM -->
+<section class="slide" id="s2" aria-label="The Problem">
+  <div class="bg-grid"></div>
+  <div class="glow-orb o1"></div>
+  <div class="slide-content">
+    <div class="two-col">
+      <div>
+        <p class="label ai">System Error Detected</p>
+        <h2 class="ai d1">Your Sleep<br>Setup Is<br>Failing You.</h2>
+        <ul class="pain-list ai d2">
+          <li>Earbuds create painful pressure for side-sleepers</li>
+          <li>Flat masks cause eyelid compression all night</li>
+          <li>Light and street noise destroy Delta-wave cycles</li>
+          <li>You track sleep with Oura / Whoop — but don't optimize it</li>
+        </ul>
+      </div>
+      <div class="stat-stack ai d3">
+        <div class="stat-item">
+          <div class="n">68%</div>
+          <div class="d">of adults report poor sleep quality</div>
+        </div>
+        <div class="stat-item">
+          <div class="n">$411B</div>
+          <div class="d">annual economic cost of sleep loss (US)</div>
+        </div>
+        <div class="stat-item">
+          <div class="n">#1</div>
+          <div class="d">complaint: earbuds hurt when sleeping on side</div>
+        </div>
+        <div class="glow-line" style="margin-top:0.3em"></div>
+        <p style="font-family:'JetBrains Mono',monospace;font-size:var(--small-size);color:var(--gray);line-height:1.5">Generic sleep tech was built for back-sleepers.<br>We built for side-sleepers.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 3: PRODUCT REVEAL -->
+<section class="slide" id="s3" aria-label="Product Reveal">
+  <div class="bg-grid"></div>
+  <div class="glow-orb o1"></div>
+  <div class="slide-content">
+    <div class="inner">
+      <p class="model ai">V1 Serenity Interface — Model 04</p>
+      <div class="img-wrap ai d1">
+        <div class="ring1"></div>
+        <div class="ring2"></div>
+        <img src="https://sc02.alicdn.com/kf/Afc2d13729af24a0e8dc577e17cdf27bca.png" alt="NOX V1 Neural Sleep Interface" />
+      </div>
+      <h2 class="ai d2">The Serenity Interface</h2>
+      <p style="font-size:var(--body-size);color:#a1a1aa;max-width:480px;line-height:1.6;text-align:center" class="ai d3">Total sensory blackout. Ultra-slim binaural audio. Engineered for zero pressure — even when sleeping on your side.</p>
+      <div class="tags ai d4">
+        <span class="tag">3mm Audio</span>
+        <span class="tag">100% Blackout</span>
+        <span class="tag">12hr Battery</span>
+        <span class="tag tag-cyan">$24.99 Launch</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 4: 3MM AUDIO -->
+<section class="slide" id="s4" aria-label="3mm Audio Profile">
+  <div class="bg-grid"></div>
+  <div class="slide-content">
+    <div class="inner">
+      <div class="ai">
+        <div class="big-num">3<span>mm</span></div>
+      </div>
+      <div class="ai d2">
+        <p class="label">Spec 01 — Audio Engineering</p>
+        <h2>Ultra-Slim Speaker Profile</h2>
+        <p class="body-text">Integrated transducers sit flush inside memory foam — physically undetectable when lying on your side. No earbud pain. Just high-fidelity binaural calm, all night.</p>
+        <div class="vs-row">
+          <span class="good">NOX V1: 3mm</span>
+          <span class="sep">vs</span>
+          <span class="bad">Generic: 12mm (bulky)</span>
+        </div>
+        <div class="code-block">
+          <span class="kw">// RESULT:</span> Zero pillow pressure. Full audio immersion.<br>Side-sleeper optimized — by design.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 5: 100% BLACKOUT -->
+<section class="slide" id="s5" aria-label="100% Light Occlusion">
+  <div class="bg-grid"></div>
+  <div class="bg-eye"></div>
+  <div class="slide-content">
+    <div class="inner">
+      <p class="label ai">Spec 02 — Ocular Engineering</p>
+      <div class="big-pct ai d1">100%</div>
+      <h2 style="font-family:'Bebas Neue',sans-serif;font-size:clamp(1.5rem,4vw,3.5rem);letter-spacing:0.08em" class="ai d2">Light Occlusion. Total Darkness.</h2>
+      <p class="body-text ai d3" style="max-width:520px;text-align:center">Custom nose-contour design blocks 100% of external light. 3D ocular cups apply zero pressure to eyelids or eyelashes. Darkness triggers the Delta-wave cascade instantly.</p>
+      <div class="chip-row ai d4">
+        <span class="tag">Custom Nose Contour</span>
+        <span class="tag">3D Ocular Cups</span>
+        <span class="tag">Zero Lid Pressure</span>
+        <span class="tag tag-cyan">Lab Tested</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 6: THERMO FOAM -->
+<section class="slide" id="s6" aria-label="Thermo-Regulating Foam">
+  <div class="bg-grid"></div>
+  <div class="glow-orb o1"></div>
+  <div class="slide-content">
+    <div class="inner">
+      <div class="ai">
+        <p class="label">Spec 03 — Material Science</p>
+        <h2>Thermo-Regulating Memory Foam</h2>
+        <p class="body-text">Breathable adaptive foam dissipates heat while contouring to your face. Your skin stays cool. Your recovery stays deep. And the mask washes clean.</p>
+      </div>
+      <div class="feature-stack ai d2">
+        <div class="feature-row">
+          <div class="ico">🌡️</div>
+          <div>
+            <div class="ft">Heat Dissipation</div>
+            <div class="fd">Breathable micro-cell structure keeps skin temperature regulated through the night</div>
+          </div>
+        </div>
+        <div class="feature-row">
+          <div class="ico">🧠</div>
+          <div>
+            <div class="ft">Adaptive Contouring</div>
+            <div class="fd">Memory foam shapes to your facial profile — no rigid pressure points, ever</div>
+          </div>
+        </div>
+        <div class="feature-row">
+          <div class="ico">⚡</div>
+          <div>
+            <div class="ft">Removable Audio Module</div>
+            <div class="fd">Hidden internal port — remove and machine wash on delicate cycle</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 7: SCIENCE -->
+<section class="slide" id="s7" aria-label="The Science">
+  <div class="bg-grid"></div>
+  <div class="slide-content">
+    <div class="inner">
+      <p class="label ai" style="color:var(--cyan)">Protocol Science</p>
+      <h2 class="ai d1">Engineered for Delta-Wave Recovery</h2>
+      <svg class="wave ai d2" viewBox="0 0 700 90" preserveAspectRatio="none" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M0,45 Q35,8 70,45 Q105,82 140,45 Q175,8 210,45 Q245,82 280,45 Q315,8 350,45 Q385,82 420,45 Q455,8 490,45 Q525,82 560,45 Q595,8 630,45 Q665,82 700,45" stroke="rgba(99,102,241,0.6)" stroke-width="2.5" />
+        <path d="M0,45 Q17.5,4 35,45 Q52.5,86 70,45 Q87.5,4 105,45 Q122.5,86 140,45 Q157.5,4 175,45 Q192.5,86 210,45 Q227.5,4 245,45 Q262.5,86 280,45 Q297.5,4 315,45 Q332.5,86 350,45 Q367.5,4 385,45 Q402.5,86 420,45 Q437.5,4 455,45 Q472.5,86 490,45 Q507.5,4 525,45 Q542.5,86 560,45 Q577.5,4 595,45 Q612.5,86 630,45 Q647.5,4 665,45 Q682.5,86 700,45" stroke="rgba(34,211,238,0.25)" stroke-width="1.5" stroke-dasharray="5 5" />
+      </svg>
+      <p class="body-text ai d3" style="max-width:600px;text-align:center">Binaural audio at 0.5–4Hz synchronizes brainwaves to Delta-state. Total darkness removes cortisol triggers. Combined: deep restorative sleep in under 15 minutes.</p>
+      <div class="three ai d4">
+        <div class="sc"><div class="n">+28%</div><div class="l">Deep Sleep</div></div>
+        <div class="sc"><div class="n">&lt;15m</div><div class="l">Time to Sleep</div></div>
+        <div class="sc"><div class="n">12h</div><div class="l">Battery Life</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 8: COMPARISON -->
+<section class="slide" id="s8" aria-label="Comparison">
+  <div class="bg-grid"></div>
+  <div class="slide-content">
+    <div class="inner">
+      <p class="label ai">Performance Benchmarking</p>
+      <h2 class="ai d1">NOX V1 vs. The Market</h2>
+      <table class="ai d2">
+        <thead>
+          <tr>
+            <th>Metric</th>
+            <th>NOX V1 Serenity</th>
+            <th>Generic Retail Mask</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Audio Profile</td><td>3mm Ultra-Thin</td><td>12mm Bulky</td></tr>
+          <tr><td>Side-Sleeper Design</td><td>Engineered for it</td><td>Not considered</td></tr>
+          <tr><td>Pressure Points</td><td>Zero — 3D Ocular Cups</td><td>High — Flat Design</td></tr>
+          <tr><td>Light Occlusion</td><td>100% (Lab Tested)</td><td>85–90% (Light Leakage)</td></tr>
+          <tr><td>Battery</td><td>12h on 1h charge</td><td>4–6h typical</td></tr>
+          <tr><td>Guarantee</td><td>30-Night Performance</td><td>Return Only</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 9: SOCIAL PROOF -->
+<section class="slide" id="s9" aria-label="Social Proof">
+  <div class="bg-grid"></div>
+  <div class="glow-orb o1"></div>
+  <div class="slide-content">
+    <div class="inner">
+      <div class="stars ai">★★★★★</div>
+      <div class="big-r ai d1">4.9</div>
+      <h2 class="ai d2">124 Verified Reviews · 12,400+ Units Shipped</h2>
+      <div class="cards ai d3">
+        <div class="rc">
+          <div class="rs">★★★★★</div>
+          <p class="rq">"I'm a side-sleeper and earbuds always hurt. The NOX V1 changed everything — I don't even feel the speakers."</p>
+          <div class="rn">— Marcus T., verified buyer</div>
+        </div>
+        <div class="rc">
+          <div class="rs">★★★★★</div>
+          <p class="rq">"Complete blackout. I live on a noisy street and finally sleep through the night. Worth every penny."</p>
+          <div class="rn">— Sarah K., verified buyer</div>
+        </div>
+        <div class="rc">
+          <div class="rs">★★★★★</div>
+          <p class="rq">"My Whoop sleep score jumped 18 points in week one. The data doesn't lie."</p>
+          <div class="rn">— Devon R., verified buyer</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 10: PRICING -->
+<section class="slide" id="s10" aria-label="Pricing">
+  <div class="bg-grid"></div>
+  <div class="glow-orb o1"></div>
+  <div class="slide-content">
+    <div class="inner">
+      <div class="ai">
+        <p class="label">Launch Pricing</p>
+        <h2>Professional-Grade<br>Sleep Tech.<br>Accessible Price.</h2>
+        <p class="body-text">Premium recovery hardware shouldn't cost $200. We engineered the V1 to outperform products at 4× the price — and priced it for the everyday optimizer.</p>
+      </div>
+      <div class="pc ai d2">
+        <div class="pb">Final Launch Pricing — Batch 04</div>
+        <div class="pm"><small>$</small>24.99</div>
+        <div class="was">Was $49.99</div>
+        <ul class="pf">
+          <li>V1 Serenity Interface (mask + audio module)</li>
+          <li>USB-C charging cable included</li>
+          <li>Premium travel case</li>
+          <li>Free 2-day US shipping</li>
+          <li>30-night performance guarantee</li>
+          <li>HSA / FSA eligible</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 11: GUARANTEE -->
+<section class="slide" id="s11" aria-label="30-Night Guarantee">
+  <div class="bg-grid"></div>
+  <div class="slide-content">
+    <div class="inner">
+      <div class="shield ai">🛡️</div>
+      <p class="label ai d1">Risk-Free Protocol</p>
+      <h2 class="ai d2">30-Night Recovery Guarantee</h2>
+      <p class="body-text ai d3" style="max-width:520px;text-align:center">If the V1 does not materially improve your sleep quality in 30 nights, we initiate a full refund. No questions. No return required. We stand behind the protocol.</p>
+      <div class="gg ai d4">
+        <div class="gi"><div class="ico">🚚</div><div class="t">Free 2-Day Shipping</div><div class="d">All US orders</div></div>
+        <div class="gi"><div class="ico">🔒</div><div class="t">AES-256 Secure Payment</div><div class="d">Bank-grade encryption</div></div>
+        <div class="gi"><div class="ico">💳</div><div class="t">HSA / FSA Eligible</div><div class="d">Health savings accepted</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 12: HOW IT WORKS -->
+<section class="slide" id="s12" aria-label="How It Works">
+  <div class="bg-grid"></div>
+  <div class="slide-content">
+    <div class="inner">
+      <p class="label ai">Initiation Sequence</p>
+      <h2 class="ai d1">How to Run the Protocol</h2>
+      <div class="steps ai d2">
+        <div class="step">
+          <div class="sn">01</div>
+          <div class="st">Load Audio</div>
+          <div class="sd">Pair via Bluetooth. Select binaural delta-wave track or your own playlist.</div>
+        </div>
+        <div class="step">
+          <div class="sn">02</div>
+          <div class="st">Engage Interface</div>
+          <div class="sd">Adjust the stretch-fit tensioner. Place the V1 over your eyes.</div>
+        </div>
+        <div class="step">
+          <div class="sn">03</div>
+          <div class="st">Activate Blackout</div>
+          <div class="sd">Nose contour seals. 100% occlusion confirmed. Cortisol drop begins.</div>
+        </div>
+        <div class="step">
+          <div class="sn">04</div>
+          <div class="st">Deep Recovery</div>
+          <div class="sd">Delta-wave synchronization active. Restorative sleep cycle initiated.</div>
+        </div>
+      </div>
+      <p style="font-family:'JetBrains Mono',monospace;font-size:var(--small-size);color:var(--gray);text-align:center;letter-spacing:0.08em" class="ai d3">
+        <span style="color:var(--cyan)">// EST. TIME TO SLEEP STATE: &lt;15 MINUTES</span>
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 13: WHO IT'S FOR -->
+<section class="slide" id="s13" aria-label="Who It's For">
+  <div class="bg-grid"></div>
+  <div class="glow-orb o1"></div>
+  <div class="slide-content">
+    <div class="inner">
+      <div class="ai">
+        <p class="label label-cyan">Target Operators</p>
+        <h2>Built for the<br>High-Performance<br>Sleeper.</h2>
+        <p class="body-text">Anyone serious about optimizing recovery, performance, and cognitive output. If you track your sleep, you'll want to upgrade it.</p>
+      </div>
+      <ul class="plist ai d2">
+        <li><span class="ico">🌙</span><div class="grp"><span class="lb">Side-Sleepers</span><span class="sb">Earbuds hurt. Flat masks compress. V1 solves both.</span></div></li>
+        <li><span class="ico">📊</span><div class="grp"><span class="lb">Biohackers &amp; Quantified-Self</span><span class="sb">Oura / Whoop users ready to act on their data</span></div></li>
+        <li><span class="ico">🏙️</span><div class="grp"><span class="lb">Urban &amp; Noise-Exposed Sleepers</span><span class="sb">Light pollution, street noise, shared spaces</span></div></li>
+        <li><span class="ico">✈️</span><div class="grp"><span class="lb">High-Performance Travelers</span><span class="sb">Hotel sleep, red-eye flights, jet lag recovery</span></div></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 14: TRACTION -->
+<section class="slide" id="s14" aria-label="Traction">
+  <div class="bg-grid"></div>
+  <div class="slide-content">
+    <div class="inner">
+      <p class="label ai">Launch Traction — Batch 04</p>
+      <h2 class="ai d1">The Protocol Is Working.</h2>
+      <div class="tg ai d2">
+        <div class="tc"><div class="n">12,400+</div><div class="l">Units Shipped</div></div>
+        <div class="tc"><div class="n">4.9★</div><div class="l">Avg. Rating</div></div>
+        <div class="tc"><div class="n">124</div><div class="l">Verified Reviews</div></div>
+        <div class="tc"><div class="n">30N</div><div class="l">Night Guarantee</div></div>
+      </div>
+      <div class="bar-wrap ai d3">
+        <div class="bar-lbl">
+          <span>BATCH 04 STOCK: 72% ALLOCATED</span>
+          <span>28% REMAINING</span>
+        </div>
+        <div class="bar-bg"><div class="bar-fill"></div></div>
+        <p style="font-family:'JetBrains Mono',monospace;font-size:var(--small-size);color:var(--gray);text-align:center;margin-top:0.3em">
+          <span style="color:#ef4444">⬤</span> Limited batch production. Restocking not guaranteed.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 15: CTA -->
+<section class="slide" id="s15" aria-label="Call to Action">
+  <div class="bg-grid"></div>
+  <div class="glow-orb o1"></div>
+  <div class="scan"></div>
+  <div class="slide-content">
+    <div class="inner">
+      <p class="sub ai">&#x25CF;&nbsp; Batch 04 Now Shipping</p>
+      <h2 class="ai d1">Initiate<br>Protocol.</h2>
+      <p class="body-text ai d2" style="max-width:460px;text-align:center">Join 12,000+ operators who chose restorative recovery over broken sleep. Batch 04 is live. Stock is limited.</p>
+      <div class="pr ai d3">Launch Price: <b>$24.99</b> &nbsp;·&nbsp; Free Shipping &nbsp;·&nbsp; 30-Night Guarantee</div>
+      <a href="https://nox-protocol.vercel.app/" class="cta ai d4" target="_blank" rel="noopener">Initiate Secure Protocol →</a>
+      <div class="url ai d5">nox-protocol.vercel.app</div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<script>
+(function () {
+  const slides = Array.from(document.querySelectorAll('.slide'));
+  const dots = Array.from(document.querySelectorAll('.nav-dot'));
+  const bar = document.getElementById('progressBar');
+  const counter = document.getElementById('slideCounter');
+  const total = slides.length;
+  let current = 0;
+
+  function pad(n) { return n < 10 ? '0' + n : '' + n; }
+
+  function goTo(idx) {
+    idx = Math.max(0, Math.min(total - 1, idx));
+    current = idx;
+    slides[idx].scrollIntoView({ behavior: 'smooth', block: 'start' });
+    sync();
+  }
+
+  function sync() {
+    dots.forEach((d, i) => d.classList.toggle('active', i === current));
+    bar.style.width = ((current + 1) / total * 100) + '%';
+    counter.textContent = pad(current + 1) + ' / ' + pad(total);
+  }
+
+  /* Track active slide via IntersectionObserver */
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting && e.intersectionRatio >= 0.5) {
+        const i = slides.indexOf(e.target);
+        if (i !== -1) { current = i; sync(); }
+      }
+    });
+  }, { threshold: 0.5 });
+  slides.forEach(s => io.observe(s));
+
+  /* Reveal animations on enter */
+  const revealIO = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.querySelectorAll('.ai').forEach(el => {
+          el.style.animationPlayState = 'running';
+        });
+      }
+    });
+  }, { threshold: 0.25 });
+  slides.forEach(s => revealIO.observe(s));
+
+  /* Batch bar on slide 14 */
+  const s14 = document.getElementById('s14');
+  if (s14) {
+    const barIO = new IntersectionObserver(entries => {
+      if (entries[0].isIntersecting) {
+        const fill = s14.querySelector('.bar-fill');
+        if (fill) fill.style.animationPlayState = 'running';
+      }
+    }, { threshold: 0.3 });
+    barIO.observe(s14);
+  }
+
+  /* Keyboard */
+  document.addEventListener('keydown', e => {
+    if (['ArrowDown','ArrowRight','PageDown',' '].includes(e.key)) { e.preventDefault(); goTo(current + 1); }
+    if (['ArrowUp','ArrowLeft','PageUp'].includes(e.key)) { e.preventDefault(); goTo(current - 1); }
+    if (e.key === 'Home') { e.preventDefault(); goTo(0); }
+    if (e.key === 'End') { e.preventDefault(); goTo(total - 1); }
+  });
+
+  /* Wheel (debounced) */
+  let wheelLock = false;
+  document.addEventListener('wheel', e => {
+    e.preventDefault();
+    if (wheelLock) return;
+    wheelLock = true;
+    setTimeout(() => { wheelLock = false; }, 800);
+    goTo(current + (e.deltaY > 0 ? 1 : -1));
+  }, { passive: false });
+
+  /* Touch */
+  let touchY = 0;
+  document.addEventListener('touchstart', e => { touchY = e.touches[0].clientY; }, { passive: true });
+  document.addEventListener('touchend', e => {
+    const dy = touchY - e.changedTouches[0].clientY;
+    if (Math.abs(dy) > 40) goTo(current + (dy > 0 ? 1 : -1));
+  }, { passive: true });
+
+  /* Nav dots */
+  dots.forEach((d, i) => d.addEventListener('click', () => goTo(i)));
+
+  sync();
+})();
+</script>
+</body>
+</html>
