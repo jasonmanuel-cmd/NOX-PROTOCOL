@@ -12,7 +12,7 @@
     "next": "latest",
     "react": "latest",
     "react-dom": "latest",
-    "square": "^33.0.0",
+    "square": "^46.0.0",
     "lucide-react": "latest",
     "framer-motion": "latest",
     "clsx": "latest",
